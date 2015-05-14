@@ -3,6 +3,12 @@ from dataModel import TestExample, TrainExample
 from featureBasedModel import FeatureBasedModel
 from sklearn.metrics.classification import accuracy_score
 from random import shuffle
+from sklearn.neighbors.classification import KNeighborsClassifier
+from numpy import reshape, vstack
+from sklearn.manifold import isomap
+from sklearn import lda
+from sklearn.decomposition import pca
+from rawModel import RawModel
 
 def split(filePath, limit):
     fileFormat = MNISTFormat()
@@ -15,17 +21,18 @@ def split(filePath, limit):
 if __name__ == '__main__':
     asTrain, asTest = split("../data/train.csv", limit=10000)
 
-    model = FeatureBasedModel()
+#     model = FeatureBasedModel()
+    model = RawModel()
     model.fit(asTrain)
-
-    testY = [ int(x.Y) for x in asTest ]
+ 
+    testY = [ x.Y for x in asTest ]
     testPredictions = model.predict(asTest)
 
     print("Accuracy: %f" % accuracy_score(testY, testPredictions))
 
-#     fileFormat = MNISTFormat()
-#     guess =  [ TestExample(x) for x in fileFormat.deserialize("../data/test.csv") ]
-#     guessPredictions = model.predict(guess)
-#     
-#     outputFormat = SubmissionFormat()
-#     outputFormat.serialize("../data/guesses.csv", guessPredictions)
+    fileFormat = MNISTFormat()
+    guess =  [ TestExample(x) for x in fileFormat.deserialize("../data/test.csv") ]
+    guessPredictions = model.predict(guess)
+     
+    outputFormat = SubmissionFormat()
+    outputFormat.serialize("../data/guesses.csv", guessPredictions)
