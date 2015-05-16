@@ -16,6 +16,7 @@ class FeatureBasedModel:
         trainY = [ int(x.Y) for x in trainExamples ]
 
         self.classifier.fit(trainX, trainY)
+        return self
 
     def predict(self, examples):
         testX = self.vectorizer.transform( [ self.toDictionary(x) for x in examples ] )
