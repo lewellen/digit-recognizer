@@ -2,17 +2,16 @@ from csv import DictReader
 
 class MNISTFormat:
     def deserialize(self, filePath, limit = None):
-        examples = []
+        # 2015-05-15 GEL Changed to a generator so that the whole file isn't 
+        # loaded into memory as other data structures are being constructed.
         with open(filePath) as handle:
             dictReader = DictReader(handle, delimiter=',')
             for example in dictReader:
-                examples.append(example)
+                yield example
                 if limit != None:
                     if limit <= 0:
                         break
                     limit -= 1
-
-        return examples
     
 class SubmissionFormat:
     def serialize(self, filePath, Y):

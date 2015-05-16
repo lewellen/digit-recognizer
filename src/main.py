@@ -17,7 +17,7 @@ def split(filePath, limit):
     return examples[:M], examples[M:]
 
 if __name__ == '__main__':
-    asTrain, asTest = split("../data/train.csv", limit=20000)
+    asTrain, asTest = split("../data/train.csv", limit=None)
 
 #     model = FeatureBasedModel()
     model = RawModel()
@@ -26,11 +26,11 @@ if __name__ == '__main__':
     testY = [ x.Y for x in asTest ]
     testPredictions = model.predict(asTest)
  
-    print("Accuracy: %f" % accuracy_score(testY, testPredictions))
+    print("%f" % (accuracy_score(testY, testPredictions)))
  
     fileFormat = MNISTFormat()
     guess =  [ TestExample(x) for x in fileFormat.deserialize("../data/test.csv") ]
     guessPredictions = model.predict(guess)
-      
+       
     outputFormat = SubmissionFormat()
     outputFormat.serialize("../data/guesses.csv", guessPredictions)
