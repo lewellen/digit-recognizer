@@ -22,4 +22,4 @@ class TrainExample(TestExample):
     def __init__(self, dictionary):
         super(TrainExample, self).__init__(dictionary)
         
-        self.Y = dictionary["label"]
+        self.Y = int(dictionary["label"])
